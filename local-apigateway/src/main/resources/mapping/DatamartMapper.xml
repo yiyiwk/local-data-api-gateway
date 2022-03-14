@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharkapi.web.uiservice.mapper.DatamartMapper">
+
+    <select id="all" resultType="java.util.Map">
+        select  t.id as "id",
+                t.name as "name",
+                t.type as "type",
+                t.url as "url",
+                t.username as "username",
+                t.password as "password",
+                t.state as "state",
+                d.custom as "custom",
+                d.name as "databaseName"
+        from api_datamart t,api_database d
+        where t.type = d.type
+    </select>
+
+    <insert id="insertDatamart" parameterType="java.util.Map" >
+        insert into api_datamart(name,type,url,username,password,state)
+                    values(
+                        #{name},
+                        #{type},
+                        #{url},
+                        #{username},
+                        #{password},
+                        #{state}
+                    )
+    </insert>
+
+    <select id="getDatamartOne" parameterType="int" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                type as "type",
+                url as "url",
+                username as "username",
+                password as "password",
+                state as "state"
+        from api_datamart
+        where id = #{id}
+    </select>
+
+    <delete id="deleteDatamart" parameterType="int">
+        delete from api_datamart where id = #{id}
+    </delete>
+
+    <update id="updateDatamart" parameterType="java.util.Map">
+        update api_datamart
+            <set>
+                <if test="name !=null and name !='' ">
+                    name = #{name},
+                </if>
+                <if test="type !=null and type !='' ">
+                    type = #{type},
+                </if>
+                <if test="url !=null and url !='' ">
+                    url = #{url},
+                </if>
+                <if test="username !=null and username !='' ">
+                    username = #{username},
+                </if>
+                <if test="password !=null and password !='' ">
+                    password = #{password},
+                </if>
+                <if test="state !=null and state !='' ">
+                    state = #{state},
+                </if>
+            </set>
+        where id = #{id}
+    </update>
+
+    <select id="allDatabase" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                type as "type",
+                default_url as "defaultUrl",
+                file as "file",
+                class as "driverClass",
+                custom as "custom"
+        from api_database
+    </select>
+
+    <select id="getDatabaseOne" parameterType="int" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                type as "type",
+                file as "file",
+                class as "class",
+                custom as "custom"
+        from api_database
+        where id = #{id}
+    </select>
+
+    <select id="getSameWithName" parameterType="java.lang.String" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                type as "type",
+                url as "url",
+                username as "username",
+                password as "password",
+                state as "state"
+        from api_datamart
+        where name = #{name}
+    </select>
+
+    <select id="getApiUseList"  parameterType="int" resultType="java.util.Map">
+        select  m.id as "id",
+                m.nodename as "nodename",
+                m.name as "name",
+                m.datamart_id as "datamartId",
+                m.interface_id as "interfaceId",
+                m.querysql as "querysql",
+                m.state as "state",
+                a.path as "path"
+        from  api_dataitem m,api_interface a
+        where m.datamart_id = #{id}
+        and   m.interface_id = a.id
+        and   m.state = '1'
+        and   a.state = '1'
+    </select>
+
+    <select id="getMaxDataBase" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                type as "type",
+                default_url as "defaultUrl",
+                file as "file",
+                class as "driverClass"
+        from api_database
+        where id = (select max(id) from api_database)
+    </select>
+
+    <insert id="insertDataBase" parameterType="java.util.Map">
+        insert into api_database(id,type,name,default_url,file,class,custom)
+        values(
+            #{id},
+            #{type},
+            #{name},
+            #{defaultUrl},
+            #{file},
+            #{class},
+            '1'
+        )
+    </insert>
+
+
+    <delete id="deleteDataBase" parameterType="int">
+        delete from api_database where type = select type from api_datamart where id = #{id}
+    </delete>
+
+    <update id="updateDataBase" parameterType="java.util.Map">
+        update api_database
+        <set>
+            <if test="dataBaseName !=null and dataBaseName !='' ">
+                name = #{dataBaseName},
+            </if>
+            <if test="defaultUrl !=null and defaultUrl !='' ">
+                default_url = #{defaultUrl},
+            </if>
+            <if test="file !=null and file !='' ">
+                file = #{file},
+            </if>
+            <if test="class !=null and class !='' ">
+                class = #{class},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getJarRepeat" parameterType="java.lang.String" resultType="java.util.Map">
+        select * from api_database where file = #{file}
+    </select>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharkapi.web.uiservice.mapper.UserMapper">
+
+    <select id="getUser" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                password as "password"
+        from api_user
+        where name = #{username}
+    </select>
+
+    <update id="updatePassword" parameterType="java.util.Map">
+        update api_user
+        <set>
+            <if test="password !=null and password !='' ">
+                password = #{password},
+            </if>
+        </set>
+        where name = #{username}
+    </update>
+
+    <select id="checkToken" parameterType="java.lang.String" resultType="java.util.Map">
+        select  id as "id",
+                token as "token",
+                user_id as "userId",
+                create_time as "createTime"
+        from api_user_token
+        where token = #{token}
+    </select>
+
+    <insert id="insertToken" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+        insert into api_user_token(token,create_time,user_id)
+            values(
+                    #{token},
+                    #{createTime},
+                    #{userId}
+                    )
+    </insert>
+
+    <delete id="deleteToken" parameterType="java.lang.String">
+        delete from api_user_token where token = #{token}
+    </delete>
+
+    <select id="getDataAndInterNum" resultType="java.lang.Integer">
+        select count(1) from api_datamart
+    </select>
+
+    <update id="saveConfig" parameterType="java.util.Map">
+        update api_config
+        <set>
+            <if test="vcode != null and vcode != '' ">
+                vcode = #{vcode},
+            </if>
+            <if test="vcode == null ">
+                vcode = null,
+            </if>
+            <if test="domainName != null and domainName != '' ">
+                domain_name = #{domainName},
+            </if>
+            <if test="ts != null and ts != '' ">
+                ts = #{ts},
+            </if>
+        </set>
+        where id = 1
+    </update>
+
+    <select id="getConfig" resultType="java.util.Map">
+        select  vcode as "vcode",
+                domain_name as "domainName",
+                ts as "ts"
+        from api_config
+        where id = 1
+    </select>
+
+</mapper>

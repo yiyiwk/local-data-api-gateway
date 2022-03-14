@@ -1,0 +1,37 @@
+{
+  "id": "3140968",
+  "name": "apiserve",
+  "font_family": "apisfont",
+  "css_prefix_text": "apis-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "27211832",
+      "name": "time",
+      "font_class": "time",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    },
+    {
+      "icon_id": "27211825",
+      "name": "safe",
+      "font_class": "safe",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "27211820",
+      "name": "mpass",
+      "font_class": "mpass",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "27211774",
+      "name": "ip",
+      "font_class": "ip",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+server:
+  port: 6888
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+      enabled: true
+
+spring:
+  datasource:
+    driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+    url: jdbc:derby:db/api;create=true
+    type: com.alibaba.druid.pool.DruidDataSource
+    validation-query: values 1
+    initialization-mode: always
+    continue-on-error: true
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+
+
+
+api:
+  jar:
+    upload:
+      path: "/jar/upload/"
+  domain:                 #如果自定义域名，则对外请求url使用域名
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+
+sharkconfig:
+  api:
+    timeout: 30000 #毫秒
+  jdbc:
+    timeout: 30000 #毫秒
+    driverJarPath: "/jdbc"
+    catalog:
+      sqlserver-8:
+        type: 1
+        file: "mssql-jdbc-8.2.0.jre8.jar"
+        class: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        url: "jdbc:sqlserver://{host}[:{port}]/[;databaseName={database}]"
+
+
+
+
+

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharkapi.web.uiservice.mapper.ParamHanderMapper">
+
+    <select id="all" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                interface_id as "interfaceId",
+                processor as "processor",
+                sort as "sort",
+                state as "state"
+        from api_param_handler
+    </select>
+
+    <insert id="insertHandler" parameterType="java.util.Map">
+        insert into api_param_handler(name,interface_id,processor,sort,state)
+                    values(
+                        #{name},
+                        #{interfaceId},
+                        #{processor},
+                        #{sort},
+                        #{state}
+                    )
+    </insert>
+
+    <select id="getHandlerOne" parameterType="int" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                interface_id as "interfaceId",
+                processor as "processor",
+                sort as "sort",
+                state as "state"
+                from api_param_handler
+        where id = #{id}
+    </select>
+
+    <delete id="deleteHandler" parameterType="int">
+        delete from api_param_handler where id = #{id}
+    </delete>
+
+    <select id="getHandlerList" parameterType="int" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                interface_id as "interfaceId",
+                processor as "processor",
+                sort as "sort",
+                state as "state"
+        from api_param_handler
+        where interface_id = #{interfaceId}
+        order by sort asc
+    </select>
+
+
+    <select id="getHandlerListWithState" parameterType="int" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                interface_id as "interfaceId",
+                processor as "processor",
+                sort as "sort",
+                state as "state"
+        from api_param_handler
+        where interface_id = #{interfaceId}
+        and   state = '1'
+        order by sort asc
+    </select>
+
+    <update id="updateSortLowWithId" parameterType="java.util.Map">
+        update api_param_handler set sort = sort+1 where id = #{id}
+    </update>
+
+    <update id="updateSortUp" parameterType="java.util.Map">
+        update api_param_handler set sort = sort+1
+        where interface_id = #{interfaceId}
+        and  sort = #{sort}
+    </update>
+
+    <update id="updateSortUpWithId" parameterType="java.util.Map">
+        update api_param_handler set sort = sort-1 where id = #{id}
+    </update>
+
+    <update id="updateSortLow" parameterType="java.util.Map">
+        update api_param_handler set sort = sort-1
+            where interface_id = #{interfaceId}
+            and  sort = #{sort}
+    </update>
+
+    <select id="checkName" parameterType="java.lang.String" resultType="java.util.Map">
+        select  id as "id",
+                name as "name",
+                interface_id as "interfaceId",
+                processor as "processor",
+                sort as "sort",
+                state as "state"
+        from api_param_handler
+        where name = #{name}
+    </select>
+
+    <update id="update" parameterType="java.util.Map">
+        update api_param_handler
+        <set>
+            <if test="name !=null and name !='' ">
+                name = #{name},
+            </if>
+            <if test="processor !=null and processor !='' ">
+                processor = #{processor},
+            </if>
+            <if test="state !=null and state !='' ">
+                state = #{state},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharkapi.web.uiservice.mapper.DataitemMapper">
+
+    <select id="all" resultType="java.util.Map" parameterType="int">
+        select  m.id as "id",
+                m.nodename as "nodename",
+                m.name as "name",
+                m.datamart_id as "datamartId",
+                m.interface_id as "interfaceId",
+                m.querysql as "querysql",
+                m.state as "state",
+                t.name as "datamartName"
+        from api_dataitem m,api_datamart t
+        where m.datamart_id = t.id
+        and  m.interface_id = #{interfaceId}
+    </select>
+
+    <insert id="insertDataitem" parameterType="java.util.Map" >
+        insert into api_dataitem(nodename,name,datamart_id,interface_id,querysql,state)
+                    values(
+                        #{nodename},
+                        #{name},
+                        #{datamartId},
+                        #{interfaceId},
+                        #{querysql},
+                        #{state}
+                    )
+    </insert>
+
+    <select id="getDataitemOne" parameterType="int" resultType="java.util.Map">
+        select  m.id as "id",
+                m.nodename as "nodename",
+                m.name as "name",
+                m.datamart_id as "datamartId",
+                m.interface_id as "interfaceId",
+                m.querysql as "querysql",
+                m.state as "state",
+                t.name as "datamartName"
+        from api_dataitem m,api_datamart t
+        where m.datamart_id = t.id
+        and  m.id = #{id}
+    </select>
+
+    <delete id="deleteDataitem" parameterType="int">
+        delete from api_dataitem where id = #{id}
+    </delete>
+
+    <update id="updateDataitem" parameterType="java.util.Map">
+        update api_dataitem
+        <set>
+            <if test="name !=null and name !='' ">
+                name = #{name},
+            </if>
+            <if test="nodename !=null and nodename !='' ">
+                nodename = #{nodename},
+            </if>
+            <if test="querysql !=null and querysql !='' ">
+                querysql = #{querysql},
+            </if>
+            <if test="state !=null and state !='' ">
+                state = #{state},
+            </if>
+            <if test="datamartId > 0">
+                datamart_id =#{datamartId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="checkNodeName" parameterType="java.util.Map" resultType="java.util.Map">
+        select  id as "id",
+                nodename as "nodename",
+                name as "name",
+                datamart_id as "datamartId",
+                interface_id as "interfaceId",
+                querysql as "querysql",
+                state as "state"
+        from api_dataitem
+        where interface_id = #{interfaceId}
+        and   nodename = #{nodename}
+    </select>
+
+    <select id="checkName" parameterType="java.util.Map" resultType="java.util.Map">
+        select  id as "id",
+                nodename as "nodename",
+                name as "name",
+                datamart_id as "datamartId",
+                interface_id as "interfaceId",
+                querysql as "querysql",
+                state as "state"
+        from api_dataitem
+        where interface_id = #{interfaceId}
+        and   name = #{name}
+    </select>
+
+    <select id="checkWithSelfName" parameterType="java.util.Map" resultType="java.util.Map">
+        select  id as "id",
+                nodename as "nodename",
+                name as "name",
+                datamart_id as "datamartId",
+                interface_id as "interfaceId",
+                querysql as "querysql",
+                state as "state"
+        from api_dataitem
+        where interface_id = #{interfaceId}
+        and   name = #{name}
+    </select>
+
+    <select id="checkWithSelfNode" parameterType="java.util.Map" resultType="java.util.Map">
+        select  id as "id",
+                nodename as "nodename",
+                name as "name",
+                datamart_id as "datamartId",
+                interface_id as "interfaceId",
+                querysql as "querysql",
+                state as "state"
+        from api_dataitem
+        where interface_id = #{interfaceId}
+        and   nodename = #{nodename}
+    </select>
+
+    <!--链表查询 数据项表和数据源表 -->
+    <select id="allWithState" resultType="java.util.Map" parameterType="int">
+        select  m.id as "dataitemId",
+                m.nodename as "nodename",
+                m.name as "dataitemName",
+                m.datamart_id as "datamartId",
+                m.interface_id as "interfaceId",
+                m.querysql as "querysql",
+                m.state as "dataitemState",
+                t.id as "datamartId",
+                t.name as "datamartName",
+                t.type as "type",
+                t.url as "url",
+                t.username as "username",
+                t.password as "password",
+                t.state as "datamartState"
+        from api_dataitem m,api_datamart t
+        where m.datamart_id = t.id
+        and   m.interface_id = #{interfaceId}
+        and   m.state = '1'
+        and   t.state = '1'
+    </select>
+
+</mapper>

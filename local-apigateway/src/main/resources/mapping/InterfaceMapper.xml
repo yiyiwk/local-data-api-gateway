@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharkapi.web.uiservice.mapper.InterfaceMapper">
+
+    <select id="all" resultType="java.util.Map">
+        select  id as "id",
+                path as "path",
+                name as "name",
+                represent as "represent",
+                state as "state"
+        from api_interface
+    </select>
+
+    <insert id="insertInterface" parameterType="java.util.Map" >
+        insert into api_interface(path,name,represent,state)
+                    values(
+                        #{path},
+                        #{name},
+                        #{represent},
+                        #{state}
+                    )
+    </insert>
+
+    <select id="getInterfaceOne" parameterType="int" resultType="java.util.Map">
+        select  id as "id",
+                path as "path",
+                name as "name",
+                represent as "represent",
+                state as "state"
+                from api_interface
+        where id = #{id}
+    </select>
+
+    <delete id="deleteInterface" parameterType="int">
+        delete from api_interface where id = #{id}
+    </delete>
+
+    <update id="updateInterface" parameterType="java.util.Map">
+        update api_interface
+        <set>
+            <if test="name !=null and name !='' ">
+                name = #{name},
+            </if>
+            <if test="path !=null and path !='' ">
+                path = #{path},
+            </if>
+            <if test="represent !=null and represent !='' ">
+                represent = #{represent},
+            </if>
+            <if test="state !=null and state !='' ">
+                state = #{state},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getPathSame" parameterType="String" resultType="java.util.Map">
+        select  id as "id",
+                path as "path",
+                name as "name",
+                represent as "represent",
+                state as "state"
+        from api_interface
+        where path = #{path}
+    </select>
+
+
+    <select id="getNameSame" parameterType="String" resultType="java.util.Map">
+        select  id as "id",
+                path as "path",
+                name as "name",
+                represent as "represent",
+                state as "state"
+        from api_interface
+        where name= #{name}
+    </select>
+
+    <select id="findInterfaceOne" parameterType="String" resultType="java.util.Map">
+        select  id as "id",
+                path as "path",
+                name as "name",
+                represent as "represent",
+                state as "state"
+        from api_interface
+        where path= #{path}
+    </select>
+
+    <select id="getSumDataitem" parameterType="int" resultType="int">
+        select count(1) from api_dataitem where interface_id = #{interfaceId}
+    </select>
+
+    <select id="getSumHandler" parameterType="int" resultType="int">
+        select count(1) from api_handler where interface_id = #{interfaceId}
+    </select>
+
+    <select id="getSumParamHandler" parameterType="int" resultType="int">
+        select count(1) from api_param_handler where interface_id = #{interfaceId}
+    </select>
+
+</mapper>

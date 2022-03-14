@@ -1,0 +1,31 @@
+@font-face {
+  font-family: "apisfont"; /* Project id 3140968 */
+  src: url('iconfont.woff2?t=1642125953995') format('woff2'),
+       url('iconfont.woff?t=1642125953995') format('woff'),
+       url('iconfont.ttf?t=1642125953995') format('truetype');
+}
+
+.apisfont {
+  font-family: "apisfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.apis-time:before {
+  content: "\e659";
+}
+
+.apis-safe:before {
+  content: "\e658";
+}
+
+.apis-mpass:before {
+  content: "\e657";
+}
+
+.apis-ip:before {
+  content: "\e656";
+}
+
